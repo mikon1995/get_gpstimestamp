@@ -18,8 +18,8 @@ make
   雷达扫描频率为10Hz, 故一帧为0.1s；此项目中默认按帧存储pcd文件，当雷达水平角度从0°扫至360°时为一帧。
 * **datapacket**: 雷达原始udp数据包。  
   总长度为1248 = 42(头部)+1206（数据）+4（gpstimestamp）+1(status type)+1(status value)  
-![datapacket] [datapacket]  
-[datapacket]: imgs/datapacket.png
+  ![datapacket] [datapacket]  
+  [datapacket]: imgs/datapacket.png
 
 ### Velodyne HDL64 gpstimestamp
 * **目标格式**： YYYY-MM-DD-HH-MI-SS-MS
@@ -52,5 +52,5 @@ make
 5. **以gps时间戳（3 + 4）同步命名并存储pcd文件。**  
 ./PcapDump/PcapDump.cpp
 ![return_gpstimestamp] [return_gpstimestamp]  
-[return_gpstimestamp]: https://github.com/mikon1995/get_gpstimestamp/imgs/return_gpstimestamp.png
+[return_gpstimestamp]: (https://github.com/mikon1995/get_gpstimestamp/imgs/return_gpstimestamp.png)
  
