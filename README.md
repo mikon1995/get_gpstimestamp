@@ -15,7 +15,7 @@ make
 ### 数据存储格式
 * **pcap**: 一种通用的数据流格式,可从网络特定端口抓取数据存储。
 * **pcd**: Point Cloud Data，一种存储点云数据的文件格式。  
-  雷达扫描频率为10Hz,故一帧为0.1s；此项目中默认按帧存储pcd文件，当雷达水平角度从0°扫至360°时为一帧。
+  雷达扫描频率为10Hz, 故一帧为0.1s；此项目中默认按帧存储pcd文件，当雷达水平角度从0°扫至360°时为一帧。
 * **datapacket**: 雷达原始udp数据包。  
   总长度为1248 = 42(头部)+1206（数据）+4（gpstimestamp）+1(status type)+1(status value)  
 ![datapacket] [datapacket]  
@@ -46,12 +46,11 @@ make
 * 在 pcl::HDLGrabber中，判断水平角度从0°扫至360°时为一帧，在存储新的一帧即初始位置时，返回当前的gpstimestamp，
   故每次返回的gpstimestamp为0°的微秒数。
 3. **解析 Status type，Status value 并整合为datatime。**  
-./MyHdlGrabber/MyHdlGrabber.cpp
-![get_gpstimestamp] [get_gpstimestamp]  
-[get_gpstimestamp]: imgs/get_gpstimestamp.png
+./MyHdlGrabber/MyHdlGrabber.cpp  
+![get_gpstimestamp](https://github.com/mikon1995/get_gpstimestamp/imgs/get_gpstimestamp.png)
 4. **解析 gpstimestamp 并转化为毫秒数。**
-5. **以gps时间戳（3+4）同步命名并存储pcd文件。**  
+5. **以gps时间戳（3 + 4）同步命名并存储pcd文件。**  
 ./PcapDump/PcapDump.cpp
 ![return_gpstimestamp] [return_gpstimestamp]  
-[return_gpstimestamp]: imgs/return_gpstimestamp.png
+[return_gpstimestamp]: https://github.com/mikon1995/get_gpstimestamp/imgs/return_gpstimestamp.png
  
