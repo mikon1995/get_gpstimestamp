@@ -5,9 +5,11 @@
 * boost 
 * 详细请见 *pcap2pcd/PcapDump/makefile*
 ## 代码运行
+```
 cd get_timestamp/pcap2pcd/PcapDump  
 make  
 ./PcapDump.exe -cal HDL-64.xml  
+```
 
 结果示例：  
 
@@ -40,7 +42,7 @@ cd data/20180622/HDL64_20180622_151300/
 2. **gpstimestamp**(4-byte）：代表从初始小时开始记录的微秒数。  
 
 ## 工作流程
-*此文件中gps时间戳的提取是基于pcl::HDLGrabber实现的*
+*此文件中gps时间戳的提取是基于pcl::HDLGrabber实现的*  
 1.**定义数据包结构体，将原始udp数据包存储至HDLDataPacket。**  
 ```
 struct HDLDataPacket
