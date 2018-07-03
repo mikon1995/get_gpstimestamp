@@ -8,9 +8,13 @@
 cd get_timestamp/pcap2pcd/PcapDump  
 make  
 ./PcapDump.exe -cal HDL-64.xml  
+
 结果示例：  
+
 ![result1](https://github.com/mikon1995/get_gpstimestamp/raw/master/imgs/result1.png)  
-cd data/20180622  
+
+cd data/20180622/HDL64_20180622_151300/  
+
 ![result2](https://github.com/mikon1995/get_gpstimestamp/raw/master/imgs/result2.png)
 
 ## 基本概念
@@ -19,20 +23,24 @@ cd data/20180622
 * **pcd**: Point Cloud Data，一种存储点云数据的文件格式。  
   雷达扫描频率为10Hz, 故一帧为0.1s；此项目中默认按帧存储pcd文件，当雷达水平角度从0°扫至360°时为一帧。
 * **datapacket**: 雷达原始udp数据包。  
-  总长度为1248 = 42(头部)+1206（数据）+4（gpstimestamp）+1(status type)+1(status value)    
+  总长度为1248 = 42(头部)+1206(数据)+4(gpstimestamp)+1(status type)+1(status value)    
+
 ![datapacket](https://github.com/mikon1995/get_gpstimestamp/raw/master/imgs/datapacket.png)
 
 ### Velodyne HDL64 gpstimestamp
 * **目标格式**： YYYY-MM-DD-HH-MI-SS-MS
 * **时间戳构成**:  
 1. **Status type & Status value**(1-byte & 1-byte): 每个数据包中只存储一个类型：Y/N/D/H/M/S 和其对应的值。  
-  在此把Status type 所对应的值整合为**datetime**，表示为年-月-日-时-分-秒   
-  |Y=year | N=month | D=day | H=hour | M=minute | S=second |    
+  * 在此把Status type 所对应的值整合为**datetime**，表示为年-月-日-时-分-秒:   
+    |Y=year | N=month | D=day | H=hour | M=minute | S=second | 
+  * Status type & Status value 共16组，即循环16个数据包才可以取到所需完整信息。
+
 ![gpstimestamp_per_datapacket](https://github.com/mikon1995/get_gpstimestamp/raw/master/imgs/gpstimestamp_per_datapacket.png)
+
 2. **gpstimestamp**(4-byte）：代表从初始小时开始记录的微秒数。  
 
 ## 工作流程
-*此文件中gps时间戳的提取是基于pcl::HDLGrabber实现的*
+*此文件中gps时间戳的提取是基于pcl::HDLGrabber实现的*  
 1.**定义数据包结构体，将原始udp数据包存储至HDLDataPacket。**  
 ```
 struct HDLDataPacket
@@ -49,9 +57,12 @@ struct HDLDataPacket
   故每次返回的gpstimestamp为0°的微秒数。
 3. **解析 Status type，Status value 并整合为datatime。**  
 ./MyHdlGrabber/MyHdlGrabber.cpp    
+
 ![get_gpstimestamp](https://github.com/mikon1995/get_gpstimestamp/raw/master/imgs/get_gpstimestamp.png)
+
 4. **解析 gpstimestamp 并转化为毫秒数。**
 5. **以gps时间戳（3 + 4）同步命名并存储pcd文件。**  
 ./PcapDump/PcapDump.cpp    
+
 ![return_gpstimestamp](https://github.com/mikon1995/get_gpstimestamp/raw/master/imgs/return_gpstimestamp.png)
  
