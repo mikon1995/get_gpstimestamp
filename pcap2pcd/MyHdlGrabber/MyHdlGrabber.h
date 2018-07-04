@@ -69,7 +69,7 @@ using namespace std;
       virtual float getFramesPerSecond() const;
       bool hasClouds();
       uint64_t getTimestamp();
-      pcl::PointCloud<pcl::PointXYZI>::Ptr getNextCloud(set<pair<string, string> > &timestamp);
+      pcl::PointCloud<pcl::PointXYZI>::Ptr getNextCloud(vector<pair<string, string> > &timestamp);
 
     protected:
       static const int HDL_NUM_ROT_ANGLES = 36001;
@@ -147,7 +147,7 @@ using namespace std;
       void initialize (const std::string& correctionsFile);
       void loadCorrectionsFile (const std::string& correctionsFile);
       void pcapThread();
-      bool completePointCloud (HDLDataPacket *dataPacket, pcl::PointCloud<pcl::PointXYZI>::Ptr myCloud, set<pair<string, string> > &timestamp);
+      bool completePointCloud (HDLDataPacket *dataPacket, pcl::PointCloud<pcl::PointXYZI>::Ptr myCloud, vector<pair<string, string> > &timestamp);
       void computeXYZI (pcl::PointXYZI& pointXYZI, int azimuth,
           HDLLaserReturn laserReturn, HDLLaserCorrection correction, int lIndex);
   };

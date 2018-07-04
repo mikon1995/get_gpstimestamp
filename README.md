@@ -8,7 +8,7 @@
 ```
 cd get_timestamp/pcap2pcd/PcapDump  
 make  
-./PcapDump.exe -cal HDL-64.xml  
+./PcapDump.exe -cal HDL-64.xml -pcap /data/20180622/
 ```
 
 结果示例：  

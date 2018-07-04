@@ -152,7 +152,7 @@ MyHdlGrabber::~MyHdlGrabber() throw() { stop(); }
 
 bool MyHdlGrabber::hasClouds() { return (running_ && header->len == 1248); }
 
-pcl::PointCloud<pcl::PointXYZI>::Ptr MyHdlGrabber::getNextCloud(set<pair<string, string> > &timestamp)
+pcl::PointCloud<pcl::PointXYZI>::Ptr MyHdlGrabber::getNextCloud(vector<pair<string, string> > &timestamp)
 {
   unsigned char *buff;
   int sz = (header->len-42);
@@ -225,7 +225,7 @@ float MyHdlGrabber::getFramesPerSecond() const { return 10.0f;}
 
 
 bool MyHdlGrabber::completePointCloud (HDLDataPacket *dataPacket, pcl::PointCloud<pcl::PointXYZI>::Ptr myCloud, 
-  set<pair<string, string> > &timestamp)
+  vector<pair<string, string> > &timestamp)
 {
   long int addr = dataPacket->blank2 & 0xFFFF;
   myCloud->header.stamp = dataPacket->gpsTimestamp;  
@@ -248,7 +248,8 @@ bool MyHdlGrabber::completePointCloud (HDLDataPacket *dataPacket, pcl::PointClou
       stream<<int_temp; 
       temp = stream.str();
     }
-    timestamp.insert(pair<string, string>(status_type, temp));
+ 
+    timestamp.push_back(pair<string, string>(status_type, temp));
   } 
   
 
